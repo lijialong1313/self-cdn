@@ -1,0 +1,31 @@
+[
+  {
+    "name":"mdui",
+    "list":[
+      {
+        "name":"v0.4.1-css",
+        "link":"./cdn/mdui/v0.4.1/css/mdui.min.css"
+      }
+      ,
+      {
+        "name":"v0.4.1-js",
+        "link":"./cdn/mdui/v0.4.1/js/mdui.min.js"
+      }
+    ]
+  }
+  ,
+  {
+    "name":"dropload",
+    "list":[
+      {
+        "name":"v0.9.1-css",
+        "link":"./cdn/dropload/v0.9.1/css/dropload.min.css"
+      }
+    ,
+      {
+        "name":"v0.9.1-js",
+        "link":"./cdn/dropload/v0.9.1/js/dropload.min.js"
+      }
+    ]
+  }
+]

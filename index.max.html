@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh" style="height: 100%;">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <title>小型cdn库</title>
+    <link rel="stylesheet" href="./cdn/mdui/v0.4.1/css/mdui.min.css">
+    <link rel="stylesheet" href="./cdn/dropload/v0.9.1/css/dropload.min.css">
+</head>
+<body class="mdui-theme-layout-dark mdui-theme-primary-indigo mdui-theme-accent-light-blue mdui-appbar-with-toolbar" style="height: 100%;">
+<!--[if lt IE 12]>
+<div class="mdui-container-fluid">
+    <div class="mdui-row">
+        <div class="mdui-col-xs-12">
+            <div class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent mdui-btn-block">您正在使用 <strong>过时的</strong> 浏览器。我们非常抱歉的告诉你我们无法保证你的用户体验</div>
+        </div>
+    </div>
+</div>
+<![endif]-->
+<div class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-hide">
+    <div class="mdui-toolbar mdui-color-theme">
+        <button class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#drawer'}"><i class="mdui-icon material-icons">menu</i></button>
+        <span class="mdui-typo-title">cdn库</span>
+        <div class="mdui-toolbar-spacer"></div>
+        <button onclick="change_style()" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">&#xe3a8;</i></button>
+    </div>
+</div>
+
+<div class="mdui-container-fluid">
+    <div id="data" class="mdui-panel" mdui-panel>
+    </div>
+</div>
+<script src="./cdn/mdui/v0.4.1/js/mdui.min.js"></script>
+<script src="./cdn/jquery/v1.11.0/js/jquery.min.js"></script>
+<script src="./cdn/dropload/v0.9.1/js/dropload.min.js"></script>
+
+<script type="text/javascript">
+    var $$ = mdui.JQ;
+    function change_style(){
+        $$('body').toggleClass('mdui-theme-layout-dark');
+    }
+    function check_time(){
+        var myDate = new Date();
+        var hour=myDate.getHours();
+        if(hour>6&&hour<22){
+            change_style();
+        }
+    }
+    $$(check_time());
+
+    function load_json(){
+        $$.ajax({
+            url: './cdn/data.json',
+            dataType:'json',
+            success:function(data, textStatus, xhr){
+                //$$('#data').html('');
+                for(var item in data) {
+                    console.log(item);
+                    var html = '<div class="mdui-panel-item mdui-panel-item-open"><div class="mdui-panel-item-header">';
+                    html+=data[item]['name'];
+                    html+='</div><div class="mdui-panel-item-body">';
+                    for(var link in data[item]['list']){
+                        html+='<p><a href="';
+                        html+=data[item]['list'][link]['link'];
+                        html+='">';
+                        html+=data[item]['list'][link]['name'];
+                        html+='</a>';
+                        html+='';
+                        html+=' '+window.location.href+(data[item]['list'][link]['link']).slice(2);
+                        html+='';
+                        html+='</p>';
+                    }
+                    html+='</div></div>';
+                    $$('#data').append(html);
+                }
+                mdui.mutation();
+            },
+            error: function (xhr, textStatus) {
+                console.log(xhr);
+                mdui.alert(textStatus);
+                //console.log(textStatus);
+            },
+            complete: function (xhr, textStatus) {
+            }
+        });
+    }
+
+    $$(load_json());
+</script>
+</body>
+</html>
